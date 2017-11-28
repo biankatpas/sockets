@@ -3,6 +3,7 @@ package udp;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,6 +15,7 @@ public class Client {
     public static void main(String[] args) {
         String addrString = "127.0.0.1";
         int port = 12345;
+        Scanner s = new Scanner(System.in);
 
         try {
 //            String addrString = JOptionPane.showInputDialog("Digite o Endere�o IP do Servidor: ");
@@ -23,7 +25,10 @@ public class Client {
             try (DatagramSocket socket = new DatagramSocket()) {
                 boolean exit = false;
                 do {
-                    String message = JOptionPane.showInputDialog("Digite uma mensagem para o Servidor: ");
+//                    String message = JOptionPane.showInputDialog("Digite uma mensagem para o Servidor: ");
+                    //solicita a mensagem para enviar ao servidor
+                    System.out.println("Digite uma mensagem para o servidor: ");
+                    String message = s.nextLine();
                     //verifica se eh para sair
                     if(message.equalsIgnoreCase("exit")){
                         exit = true;
