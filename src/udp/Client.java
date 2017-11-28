@@ -45,9 +45,17 @@ public class Client
                         exit = true;
 
                     //envio dos dados
-                    DatagramPacket datagram = new DatagramPacket(message.getBytes(), 0,
+                    DatagramPacket datagram_send = new DatagramPacket(message.getBytes(), 0,
                             message.getBytes().length, addr, port);
-                    socket.send(datagram);
+                    socket.send(datagram_send);
+                    
+                    //recebimento de dados
+                    DatagramPacket datagram_receive = new DatagramPacket(new byte[1024], 1024, addr, port);
+                    socket.receive(datagram_receive); //recepção
+                    
+                    //exibe a msg recebida
+                    String message_receive = new String(datagram_receive.getData());
+                    System.out.println("O servidor respondeu: " + message_receive);
                 }
                 while(!exit);
             }
