@@ -35,24 +35,32 @@ public class Client
         try 
         {
             InetAddress addr = InetAddress.getByName(addrString);
-
-            //solicita a mensagem para enviar ao servidor
-            System.out.println("Digite uma mensagem para o servidor: ");
-            String message = s.nextLine();
-
-            String data;
-            try (Socket socket = new Socket(addr, port)) 
+            
+            boolean exit = false;
+            do 
             {
-                DataOutputStream dataOutput = new DataOutputStream(socket.getOutputStream());
-                dataOutput.writeUTF(message);
-                DataInputStream dataInput = new DataInputStream(socket.getInputStream());
-                data = dataInput.readUTF();
-            }
+                //solicita a mensagem para enviar ao servidor
+                System.out.println("Digite uma mensagem para o servidor: ");
+                String message = s.nextLine();
 
-            if (data.equals(message)) 
-                System.out.println("Echo: " + data + " - bem sucedido.");
-            else 
-                System.out.println("Enviado: " + message + "\nRecebido: " + data);
+                //verifica se eh para sair
+                if(message.equalsIgnoreCase("exit"))
+                    exit = true;
+
+                String data;
+                try (Socket socket = new Socket(addr, port)) 
+                {
+                    DataOutputStream dataOutput = new DataOutputStream(socket.getOutputStream());
+                    dataOutput.writeUTF(message);
+                    DataInputStream dataInput = new DataInputStream(socket.getInputStream());
+                    data = dataInput.readUTF();
+                }
+
+                if (data.equals(message)) 
+                    System.out.println("Echo: " + data + " - bem sucedido.");
+                else 
+                    System.out.println("Enviado: " + message + "\nRecebido: " + data);
+            }while(!exit);
         } 
         catch (HeadlessException | IOException e) 
         {
