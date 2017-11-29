@@ -38,25 +38,25 @@ public class Client
             InetAddress addr = InetAddress.getByName(addrString);
             
             boolean exit = false;
-            do 
+            for(int i = 0; i < 3; i++)
             {
-                String message = "Desejo fazer o quiz.";
-                String data;
-             
+                if(exit) break;
+                
                 socket = new Socket(addr, port);
                 
+                String message = "Desejo fazer o quiz.";
+                String data;
+                
+                //envia primeira msg para o servidor
                 DataOutputStream dataOutput = new DataOutputStream(socket.getOutputStream());
                 dataOutput.writeUTF(message);
                 
+                //recebe a pergunta do servidor
                 DataInputStream dataInput = new DataInputStream(socket.getInputStream());
                 data = dataInput.readUTF();
+                System.out.println("Recebido: " +data);
 
-//                if (data.equals(message)) 
-//                    System.out.println("Echo: " + data + " - bem sucedido.");
-//                else 
-                    System.out.println("Enviado: " + message + "\nRecebido: " + data);
-                
-                //solicita a mensagem para enviar ao servidor
+                //solicita a resposta para enviar ao servidor
                 System.out.println("Digite a resposta para o servidor: ");
                 message = s.nextLine();
                 
@@ -72,9 +72,9 @@ public class Client
                 //recebe retorno do servidor
                 dataInput = new DataInputStream(socket.getInputStream());
                 data = dataInput.readUTF(); 
-                System.out.println("Enviado: " + message + "\nRecebido: " + data);
+                System.out.println("Recebido: " + data);
                 
-            }while(!exit);
+            }
         } 
         catch (HeadlessException | IOException e) 
         {

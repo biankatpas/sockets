@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  *
@@ -28,44 +29,53 @@ public class Server
             serverSocket = new ServerSocket(port);
             System.out.println("Servidor TCP escutando na porta "+serverSocket.getLocalPort());
             
+            ArrayList<Pergunta> perguntas = new ArrayList<>();
+            perguntas.add(new Pergunta("qual seu nome?", "bianka"));
+            perguntas.add(new Pergunta("qual sua idade?", "27"));
+            perguntas.add(new Pergunta("mas nem peixe?", "não"));
+            
             boolean exit = false;
-            do
+            for(int i = 0; i<3; i++)
             {
+                if(exit) break;
+                
                 Socket socket = serverSocket.accept();
                                              
+                //recebe a primeira msg do cliente
                 System.out.println("Recebendo mensagem de "+
                   socket.getInetAddress().getHostName()+":"+socket.getPort());
-                
                 DataInputStream dataInput = new DataInputStream(socket.getInputStream());
                 String data = dataInput.readUTF();
-                System.out.println("Mensagem recebida do cliente: "+data);
                 
+                //verifica se é para sair
                 if(data.equalsIgnoreCase("exit"))
                     exit = true;
-                
-                Pergunta p = new Pergunta("qual seu nome?", "bianka");
+               
+                //envia a pergunta para o cliente
                 DataOutputStream dataOutput = new DataOutputStream(socket.getOutputStream());
-                System.out.println("Mensagem a ser enviada para o cliente (echo): "+p.getPergunta());
-                dataOutput.writeUTF(p.getPergunta());
+                System.out.println("Mensagem a ser enviada para o cliente (echo): "+perguntas.get(i).getPergunta());
+                dataOutput.writeUTF(perguntas.get(i).getPergunta());
                 
+                //recebe a resposta do cliente
                 dataInput = new DataInputStream(socket.getInputStream());
                 data = dataInput.readUTF();
                 System.out.println("Mensagem recebida do cliente: "+data);
               
-                dataOutput = new DataOutputStream(socket.getOutputStream());
-                
-                if(data.equalsIgnoreCase(p.getResposta()))
+                //verifica se a resposta esta correta
+                if(data.equalsIgnoreCase(perguntas.get(i).getResposta()))
                     data = "resposta correta!";
                 else
-                    data = "A resposta correta é: "+p.getResposta();
+                    data = "A resposta correta é: "+perguntas.get(i).getResposta();
                 
+                //manda a resposta do quiz para o cliente
+                dataOutput = new DataOutputStream(socket.getOutputStream());
                 System.out.println("Mensagem a ser enviada para o cliente (echo): "+data);
                 dataOutput.writeUTF(data);
                 
+                //fecha a conexao
                 socket.close();
             }
-            while(!exit);
-            
+            //fecha a conexao
             serverSocket.close();
         }
          catch(IOException e)

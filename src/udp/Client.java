@@ -1,5 +1,6 @@
 package udp;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -60,10 +61,9 @@ public class Client
                 while(!exit);
             }
         } 
-        catch (Exception e) 
+        catch (IOException e) 
         {
             System.err.println("An exception ocourred: " + e.getMessage());
-            e.printStackTrace();
             System.exit(-1);
         }
     }
