@@ -1,9 +1,3 @@
-/*
- * Server.java
- *
- * Created on 23 de Maio de 2012
- */
-
 package tcp;
 
 import java.io.DataInputStream;
@@ -38,18 +32,33 @@ public class Server
             do
             {
                 Socket socket = serverSocket.accept();
-  
+                                             
                 System.out.println("Recebendo mensagem de "+
                   socket.getInetAddress().getHostName()+":"+socket.getPort());
                 
                 DataInputStream dataInput = new DataInputStream(socket.getInputStream());
                 String data = dataInput.readUTF();
+                System.out.println("Mensagem recebida do cliente: "+data);
+                
                 if(data.equalsIgnoreCase("exit"))
                     exit = true;
                 
-                System.out.println("Mensagem recebida do cliente: "+data);
-                
+                Pergunta p = new Pergunta("qual seu nome?", "bianka");
                 DataOutputStream dataOutput = new DataOutputStream(socket.getOutputStream());
+                System.out.println("Mensagem a ser enviada para o cliente (echo): "+p.getPergunta());
+                dataOutput.writeUTF(p.getPergunta());
+                
+                dataInput = new DataInputStream(socket.getInputStream());
+                data = dataInput.readUTF();
+                System.out.println("Mensagem recebida do cliente: "+data);
+              
+                dataOutput = new DataOutputStream(socket.getOutputStream());
+                
+                if(data.equalsIgnoreCase(p.getResposta()))
+                    data = "resposta correta!";
+                else
+                    data = "A resposta correta é: "+p.getResposta();
+                
                 System.out.println("Mensagem a ser enviada para o cliente (echo): "+data);
                 dataOutput.writeUTF(data);
                 
