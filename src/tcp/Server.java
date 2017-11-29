@@ -8,28 +8,35 @@ package tcp;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import javax.swing.JOptionPane;
 
 /**
  *
- * @author Alysson e Michelle
+ * @author biankatpas
  */
-public class Server {
-    public static void main(String[] args) {
-        
-        
-         try{
-            String portString = JOptionPane.showInputDialog("Digite a Porta do Servidor: ");
-            int port = Integer.parseInt(portString);
 
-            ServerSocket serverSocket = new ServerSocket(port);
-
+public class Server 
+{
+    public static void main(String[] args) 
+    {
+        ServerSocket serverSocket; 
+        int port;
+                
+        if(args.length < 1) 
+          port = 12345;
+        else
+          port = Integer.parseInt(args[0]);
+        
+         try
+         {
+            serverSocket = new ServerSocket(port);
             System.out.println("Servidor TCP escutando na porta "+serverSocket.getLocalPort());
             
             boolean exit = false;
-            do{
+            do
+            {
                 Socket socket = serverSocket.accept();
   
                 System.out.println("Recebendo mensagem de "+
@@ -37,9 +44,8 @@ public class Server {
                 
                 DataInputStream dataInput = new DataInputStream(socket.getInputStream());
                 String data = dataInput.readUTF();
-                if(data.equalsIgnoreCase("exit")){
+                if(data.equalsIgnoreCase("exit"))
                     exit = true;
-                }
                 
                 System.out.println("Mensagem recebida do cliente: "+data);
                 
@@ -48,12 +54,14 @@ public class Server {
                 dataOutput.writeUTF(data);
                 
                 socket.close();
-            }while(!exit);
+            }
+            while(!exit);
             
             serverSocket.close();
-        }catch(Exception e){
+        }
+         catch(IOException e)
+         {
             System.err.println("And exception ocourred: "+e.getMessage());
-            e.printStackTrace();
             System.exit(-1);
         }
     }
