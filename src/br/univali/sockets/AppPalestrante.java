@@ -35,7 +35,7 @@ public class AppPalestrante {
                 System.out.println("2. pergunta fora do contexto da palestra");
                 System.out.println("3. a pergunta será respondida para todos os participantes");
                 System.out.println("4. a pergunta será respondida individualmente posteriormente");
-                String message = s.nextLine();
+                String message = "" + s.nextInt();
 
                 DatagramPacket datagram_send = new DatagramPacket(message.getBytes(), 0,
                         message.getBytes().length, InetAddress.getByName("127.0.0.1"), 12345);
