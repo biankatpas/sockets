@@ -1,5 +1,7 @@
 package br.univali.sockets;
 
+import java.net.InetAddress;
+
 /**
  *
  * @author biankatpas
@@ -10,17 +12,20 @@ public class Aluno {
 
     private int id;
     private String nome;
-    private String address;
+    private InetAddress address;
     private int port;
 
-    public Aluno() {
+    public Aluno(String nome, InetAddress address, int port) {
+        this.nome = nome;
+        this.address = address;
+        this.port = port;
     }
-
-    public String getAddress() {
+      
+    public InetAddress getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(InetAddress address) {
         this.address = address;
     }
 

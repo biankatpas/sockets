@@ -12,12 +12,14 @@ import java.util.Scanner;
  * @author vitorpassos
  *
  */
+
 public class AppAluno {
 
     public static void main(String[] args) {
         String addrString = "127.0.0.1";
         int port = 12345;
         Scanner s = new Scanner(System.in);
+        String nome ="";
         String mensagem="";
         String pergunta="";
         byte[] buffer = null;
@@ -25,6 +27,12 @@ public class AppAluno {
         try {
             InetAddress addr = InetAddress.getByName(addrString);
             try (DatagramSocket socket = new DatagramSocket()) {
+                System.out.println("Informe o seu nome para cadastro: ");
+                nome = s.nextLine();
+                
+                DatagramPacket datagram_cadastro = new DatagramPacket(nome.getBytes(), 0, nome.getBytes().length, addr, port);
+                socket.send(datagram_cadastro); //envio dos dados
+                
                 while (true) {
                     System.out.println("O que você deseja fazer?\n (1) enviar uma pergunta para o palestrante\n (2) enviar mensagem para todos os participantes conectados");
                     int opcao = s.nextInt();

@@ -8,13 +8,20 @@ import java.util.ArrayList;
  * @author vitorpassos
  *
  */
+
 public class AlunosRepositorio 
 {
+    ArrayList<Aluno> alunos; 
+    private int next_id;
 
-    ArrayList<Aluno> alunos = new ArrayList<>();
+    public AlunosRepositorio() {
+        alunos = new ArrayList<>();
+        next_id = 0;
+    }
 
     public void save(Aluno aluno) 
     {
+        aluno.setId(next_id++);
         alunos.add(aluno);
     }
 
@@ -40,4 +47,7 @@ public class AlunosRepositorio
         return alunos;
     }
 
+    public int getNext_id() {
+        return next_id;
+    }
 }
