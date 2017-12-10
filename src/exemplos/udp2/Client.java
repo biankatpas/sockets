@@ -4,7 +4,7 @@
  * Created on 23 de Maio de 2012
  */
 
-package udp2;
+package exemplos.udp2;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -20,7 +20,7 @@ public class Client {
     public static void main(String[] args) {
 
         try{
-            String addrString = JOptionPane.showInputDialog("Digite o Endereço IP do Servidor: ");
+            String addrString = JOptionPane.showInputDialog("Digite o Endereï¿½o IP do Servidor: ");
             InetAddress addr = InetAddress.getByName(addrString);
             String portString = JOptionPane.showInputDialog("Digite a Porta do Servidor: ");
             int port2 = Integer.parseInt(portString);

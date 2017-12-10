@@ -4,7 +4,7 @@
  * Created on 11 de Junho de 2013
  */
 
-package tcpThread;
+package exemplos.tcpThread;
 
 import java.net.ServerSocket;
 import java.net.Socket;

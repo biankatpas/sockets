@@ -4,7 +4,7 @@
  * Created on 11 de Junho de 2013, 16:38
  */
 
-package tcpThread;
+package exemplos.tcpThread;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -22,7 +22,7 @@ public class Client {
 
         try{
             
-            String addrString = JOptionPane.showInputDialog("Digite o Endereço IP do Servidor: ");
+            String addrString = JOptionPane.showInputDialog("Digite o Endereï¿½o IP do Servidor: ");
             InetAddress addr = InetAddress.getByName(addrString);
             String portString = JOptionPane.showInputDialog("Digite a Porta do Servidor: ");
             int port = Integer.parseInt(portString);

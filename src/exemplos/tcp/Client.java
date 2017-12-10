@@ -1,4 +1,4 @@
-package tcp;
+package exemplos.tcp;
 
 import java.awt.HeadlessException;
 import java.io.DataInputStream;

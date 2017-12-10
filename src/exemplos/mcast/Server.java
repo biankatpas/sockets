@@ -4,7 +4,7 @@
  * Created on 10 de Abril de 2005, 16:52
  */
 
-package mcast;
+package exemplos.mcast;
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -21,7 +21,7 @@ public class Server {
         try{
             String portString = JOptionPane.showInputDialog("Digite a Porta do Servidor Multicast: ");
             int port = Integer.parseInt(portString);
-            String addrGroup = JOptionPane.showInputDialog("Digite o Endereço de Multicast do grupo: ");
+            String addrGroup = JOptionPane.showInputDialog("Digite o Endereï¿½o de Multicast do grupo: ");
             InetAddress addr = InetAddress.getByName(addrGroup);
 
             MulticastSocket socket = new MulticastSocket(port);

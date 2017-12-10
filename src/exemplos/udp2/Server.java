@@ -4,7 +4,7 @@
  * Created on 23 de Maio de 2012
  */
 
-package udp2;
+package exemplos.udp2;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;

@@ -4,7 +4,7 @@
  * Created on 10 de Abril de 2005, 16:38
  */
 
-package mcast;
+package exemplos.mcast;
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -20,7 +20,7 @@ public class Client {
     public static void main(String[] args) {
         
         try{
-            String addrString = JOptionPane.showInputDialog("Digite o Endereço do Grupo de Multicast: ");
+            String addrString = JOptionPane.showInputDialog("Digite o Endereï¿½o do Grupo de Multicast: ");
             InetAddress addr = InetAddress.getByName(addrString);
             String portString = JOptionPane.showInputDialog("Digite a Porta do ServidorMulticast: ");
             int port = Integer.parseInt(portString);

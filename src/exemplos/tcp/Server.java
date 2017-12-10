@@ -1,4 +1,4 @@
-package tcp;
+package exemplos.tcp;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
