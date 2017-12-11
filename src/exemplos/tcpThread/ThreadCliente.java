@@ -6,40 +6,40 @@ package exemplos.tcpThread;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.net.Socket;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 /**
  *
  * @author Wangham
  */
-public class ThreadCliente extends Thread{
-    
-    private Socket socket_clie;
+public class ThreadCliente extends Thread {
 
-  public ThreadCliente(Socket cliente) {
+    private DatagramSocket socket_clie;
 
-    this.socket_clie = cliente; 
+    public ThreadCliente(DatagramSocket cliente) {
 
-  }
-  public void run() {
-
-    try {
-        System.out.println("Recebendo mensagem de "+ socket_clie.getInetAddress().getHostName()+":"+socket_clie.getPort());
-        DataInputStream dataInput = new DataInputStream(socket_clie.getInputStream());
-        String data = dataInput.readUTF();
-        System.out.println("Mensagem recebida do cliente: "+data);
-        DataOutputStream dataOutput = new DataOutputStream(socket_clie.getOutputStream());
-        System.out.println("Mensagem a ser enviada para o cliente (echo): "+data);
-        dataOutput.writeUTF(data);
-       }
-    catch(Exception e) {
-    System.out.println("Excecao ocorrida na thread: " + e.getMessage());            
-       try {
-         socket_clie.close();   
-       }
-       catch(Exception ec) {}     
+        this.socket_clie = cliente;
 
     }
-  }
-    
+
+    public void run() {
+
+        try {
+            InetAddress addr = InetAddress.getByName("127.0.0.1");
+            DatagramPacket datagrama = new DatagramPacket(new byte[1024], 1024, addr, 1234);
+            socket_clie.receive(datagrama);
+            System.out.println("Recebendo mensagem de " + datagrama.getAddress() + ":" + datagrama.getPort());
+            System.out.println("Mensagem recebida do cliente: " + new String(datagrama.getData()).trim());
+        } catch (Exception e) {
+            System.out.println("Excecao ocorrida na thread: " + e.getMessage());
+            try {
+                socket_clie.close();
+            } catch (Exception ec) {
+            }
+
+        }
+    }
+
 }

@@ -3,59 +3,53 @@
  *
  * Created on 11 de Junho de 2013, 16:38
  */
-
 package exemplos.tcpThread;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.Socket;
-import javax.swing.JOptionPane;
+import java.util.Scanner;
 
 /**
  *
  * @author Michelle Wanghan
  */
 public class Client {
+
     public static void main(String[] args) {
-     
 
-        try{
-            
-            String addrString = JOptionPane.showInputDialog("Digite o Endere�o IP do Servidor: ");
-            InetAddress addr = InetAddress.getByName(addrString);
-            String portString = JOptionPane.showInputDialog("Digite a Porta do Servidor: ");
-            int port = Integer.parseInt(portString);
-                                
-            Socket socket = new Socket(addr,port);
-            String message = JOptionPane.showInputDialog("Digite uma mensagem para o Servidor: ");
-            DataOutputStream dataOutput = new DataOutputStream(socket.getOutputStream());
-            DataInputStream dataInput = new DataInputStream(socket.getInputStream());
-            dataOutput.writeUTF(message);
-            String data = dataInput.readUTF();
-            
-            if(data.equals(message)){
-                System.out.println("Echo: "+data+" - bem sucedido.");
-            }else{
-                System.out.println("Enviado: "+message);
-                System.out.println("Recebido: "+data);
-            }
-            
-            String message2 = JOptionPane.showInputDialog("Digite outra mensagem para o Servidor: ");
-            dataOutput.writeUTF(message2);
-            String data2 = dataInput.readUTF();
-                     
-            
+        try {
+            Scanner s = new Scanner(System.in);
+            InetAddress addr = InetAddress.getByName("127.0.0.1");
 
-            if(data2.equals(message2)){
-                System.out.println("Echo: "+data+" - bem sucedido.");
-            }else{
-                System.out.println("Enviado: "+message);
-                System.out.println("Recebido: "+data);
+            try (DatagramSocket socket = new DatagramSocket()) {
+                boolean exit = false;
+                do {
+                    //solicita a mensagem para enviar ao servidor
+                    System.out.println("Digite uma mensagem para o servidor: ");
+                    String message = s.nextLine();
+
+                    //verifica se eh para sair
+                    if (message.equalsIgnoreCase("exit")) {
+                        exit = true;
+                    }
+
+                    //envio dos dados
+                    DatagramPacket datagram_send = new DatagramPacket(message.getBytes(), 0,
+                            message.getBytes().length, addr, 1234);
+                    socket.send(datagram_send);
+
+                    //recebimento de dados
+                    DatagramPacket datagram_receive = new DatagramPacket(new byte[1024], 1024, addr, 1234);
+                    socket.receive(datagram_receive); //recepção
+
+                    //exibe a msg recebida
+                    String message_receive = new String(datagram_receive.getData());
+                    System.out.println("O servidor respondeu: " + message_receive);
+                } while (!exit);
             }
-            socket.close();
-        }catch(Exception e){
-            System.err.println("An exception ocourred: "+e.getMessage());
+        } catch (Exception e) {
+            System.err.println("An exception ocourred: " + e.getMessage());
             e.printStackTrace();
             System.exit(-1);
         }

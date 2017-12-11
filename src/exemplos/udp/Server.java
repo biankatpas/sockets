@@ -24,6 +24,8 @@ public class Server
         {
             socket = new DatagramSocket(port);
             System.out.println("Servidor UDP escutando na porta  "+port);
+            System.out.println("Servidor UDP escutando na porta  "+socket.getPort());
+            System.out.println("aaa "+socket);
             
             boolean exit = false;
             do
