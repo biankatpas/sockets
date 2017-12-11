@@ -24,7 +24,7 @@ public class Server {
                 //Inicia thread do cliente
                 DatagramPacket dp = new DatagramPacket(new byte[1024],1024);
                 serverSocket.receive(dp);
-                new ThreadCliente(serverSocket).start();
+                new ThreadCliente(dp).start();
             }
 
         } catch (Exception e) {

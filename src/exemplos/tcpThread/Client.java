@@ -9,6 +9,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,15 +25,15 @@ public class Client {
 
             try (DatagramSocket socket = new DatagramSocket()) {
                 boolean exit = false;
-                do {
+                while(true) {
                     //solicita a mensagem para enviar ao servidor
                     System.out.println("Digite uma mensagem para o servidor: ");
                     String message = s.nextLine();
-
+                    
                     //verifica se eh para sair
-                    if (message.equalsIgnoreCase("exit")) {
-                        exit = true;
-                    }
+                    //if (message.equalsIgnoreCase("exit")) {
+                      //  exit = true;
+                    //}
 
                     //envio dos dados
                     DatagramPacket datagram_send = new DatagramPacket(message.getBytes(), 0,
@@ -40,13 +41,15 @@ public class Client {
                     socket.send(datagram_send);
 
                     //recebimento de dados
-                    DatagramPacket datagram_receive = new DatagramPacket(new byte[1024], 1024, addr, 1234);
-                    socket.receive(datagram_receive); //recepção
+                    //DatagramPacket datagram_receive = new DatagramPacket(new byte[1024], 1024, addr, 1234);
+                    //socket.receive(datagram_receive); //recepção
 
                     //exibe a msg recebida
-                    String message_receive = new String(datagram_receive.getData());
-                    System.out.println("O servidor respondeu: " + message_receive);
-                } while (!exit);
+                    //String message_receive = new String(datagram_receive.getData());
+                    //System.out.println("O servidor respondeu: " + message_receive);
+                    
+                    //String message1 = JOptionPane.showInputDialog("Teste1 :");
+                }
             }
         } catch (Exception e) {
             System.err.println("An exception ocourred: " + e.getMessage());

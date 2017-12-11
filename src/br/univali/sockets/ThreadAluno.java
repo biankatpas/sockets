@@ -1,24 +1,22 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package exemplos.tcpThread;
+package br.univali.sockets;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 /**
  *
- * @author Wangham
+ * @author Vitor
  */
-public class ThreadCliente extends Thread {
+public class ThreadAluno extends Thread {
 
     private DatagramPacket socket_clie;
 
-    public ThreadCliente(DatagramPacket cliente) {
+    public ThreadAluno(DatagramPacket cliente) {
         System.out.println("Criou Thread");
         this.socket_clie = cliente;
 

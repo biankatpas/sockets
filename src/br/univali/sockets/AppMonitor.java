@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -17,8 +18,7 @@ import java.util.Scanner;
 public class AppMonitor {
 
     public static void main(String[] args) {
-        AlunosRepositorio repositorio;
-        repositorio = AlunosRepositorio.getInstance();
+        HashMap<Integer, Aluno> hashAluno = new HashMap<>();
         int port = 12345;
         DatagramSocket socket;
         Scanner s = new Scanner(System.in);
@@ -29,8 +29,7 @@ public class AppMonitor {
             socket = new DatagramSocket(port);
             System.out.println("Monitor escutando na porta: " + port);
 
-            //somente para teste 
-            //TODO: verificar como fazer o controle do cadastro de alunos
+            //recebe o primeiro datagrama do aluno
             DatagramPacket datagram_cadastro = new DatagramPacket(new byte[1024], 1024);
             socket.receive(datagram_cadastro); //recepção em um datagrama de 1024 bytes
 
@@ -39,19 +38,35 @@ public class AppMonitor {
             InetAddress message_receive_address = datagram_cadastro.getAddress();
             int message_receive_port = datagram_cadastro.getPort();
 
-            //salva no repositorio de alunos
-            repositorio.save(new Aluno(message_receive_data, message_receive_address, message_receive_port));
-
-            //---------------------------------------------------------------------------------
-            //somente para conferencia dos alunos no repositorio
-            for (int i = 0; i < repositorio.findAll().size(); i++) {
-                System.out.println("id: " + repositorio.findAll().get(i).getId());
-                System.out.println("nome: " + repositorio.findAll().get(i).getNome());
-                System.out.println("endereco: " + repositorio.findAll().get(i).getAddress());
-                System.out.println("porta: " + repositorio.findAll().get(i).getPort());
-                System.out.println();
+            //se for para cadastrar
+            if (message_receive_data.equalsIgnoreCase("cadastrar")) {
+                System.out.println("fffffffffffff");
+                if (hashAluno.isEmpty()) {
+                    System.out.println("ffff000" +message_receive_address+":"+ message_receive_port);
+                    String mensagem = "informe";
+                    //pede o nome do aluno
+                    DatagramPacket solicita_cadastro = new DatagramPacket(mensagem.getBytes(),
+                            mensagem.getBytes().length, message_receive_address, message_receive_port);
+                    socket.send(solicita_cadastro);
+                    //escuta o nome do aluno
+                    DatagramPacket recebe_cadastro = new DatagramPacket(new byte[1024], 1024);
+                    socket.receive(recebe_cadastro); //recepção em um datagrama de 1024 bytes
+                    //save
+                    hashAluno.put(recebe_cadastro.getPort(), new Aluno(new String(recebe_cadastro.getData()).trim(), recebe_cadastro.getAddress(), recebe_cadastro.getPort()));
+                } else {
+                    if (!hashAluno.containsKey(datagram_cadastro.getPort())) {
+                        String mensagem = "Informe o seu nome: ";
+                        DatagramPacket solicita_cadastro = new DatagramPacket(mensagem.getBytes(), 0,
+                                mensagem.getBytes().length, message_receive_address, message_receive_port);
+                        socket.send(solicita_cadastro);
+                        DatagramPacket recebe_cadastro = new DatagramPacket(new byte[1024], 1024);
+                        socket.receive(recebe_cadastro); //recepção em um datagrama de 1024 bytes
+                        hashAluno.put(recebe_cadastro.getPort(), new Aluno(new String(recebe_cadastro.getData()).trim(), recebe_cadastro.getAddress(), recebe_cadastro.getPort()));
+                    }
+                }
             }
-            //---------------------------------------------------------------------------------
+            
+            System.out.println("Hash == "+hashAluno);
 
             while (true) {
                 DatagramPacket datagram_receive = new DatagramPacket(new byte[1024], 1024);
@@ -59,6 +74,11 @@ public class AppMonitor {
 
                 //imprime a pergunta recebida do aluno
                 String datagrama[] = new String(datagram_receive.getData()).trim().split(";");
+                if(hashAluno.containsKey(datagram_receive.getPort())){
+                    System.out.println("Aluno :"
+                            +hashAluno.get(datagram_receive.getPort()).getNome());
+                }
+                               
                 int op_aluno = Integer.parseInt(datagrama[0]);
                 String acao = "";
                 switch (op_aluno) {
@@ -102,10 +122,11 @@ public class AppMonitor {
                         MulticastSocket msocket = new MulticastSocket();
                         DatagramPacket mdatagram = new DatagramPacket(datagrama[1].getBytes(), 0,
                                 datagrama[1].getBytes().length, multi_addrs, 5000);
-                        msocket.send(mdatagram);                   
+                        msocket.send(mdatagram);
                         break;
                     default:
                         System.out.println("Selecione uma opção válida");
+                        break;
                 }
 
                 if (buffer_resposta != null) {//da retorno para o aluno
