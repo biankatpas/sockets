@@ -5,6 +5,7 @@
  */
 package exemplos.tcpThread;
 
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 /**
@@ -21,6 +22,8 @@ public class Server {
 
             while (true) {
                 //Inicia thread do cliente
+                DatagramPacket dp = new DatagramPacket(new byte[1024],1024);
+                serverSocket.receive(dp);
                 new ThreadCliente(serverSocket).start();
             }
 
