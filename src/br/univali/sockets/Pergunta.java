@@ -9,5 +9,6 @@ package br.univali.sockets;
 
 public class Pergunta {
     Aluno aluno;
+    int id_pergunta;
     
 }

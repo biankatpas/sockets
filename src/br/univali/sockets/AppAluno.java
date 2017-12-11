@@ -51,18 +51,19 @@ public class AppAluno {
                             break;
                         default:
                             System.out.println("Informe uma opção válida.");
+                            break;
                     }
                                         
                     DatagramPacket datagram_send = new DatagramPacket(buffer, 0, buffer.length, addr, port);
                     socket.send(datagram_send); //envio dos dados
 
                     //recebimento de dados
-//                    DatagramPacket datagram_receive = new DatagramPacket(new byte[1024], 1024, addr, port);
-//                    socket.receive(datagram_receive); //recepção
+                    DatagramPacket datagram_receive = new DatagramPacket(new byte[1024], 1024, addr, port);
+                    socket.receive(datagram_receive); //recepção
 
                     //exibe a msg recebida
-//                    String message_receive = new String(datagram_receive.getData());
-//                    System.out.println("O monitor respondeu: " + message_receive);
+                    String message_receive = new String(datagram_receive.getData());
+                    System.out.println("O monitor respondeu: " + message_receive);
                 }
             }
         } catch (IOException e) {
