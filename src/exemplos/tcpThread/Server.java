@@ -3,38 +3,29 @@
  *
  * Created on 11 de Junho de 2013
  */
-
 package exemplos.tcpThread;
 
-import java.net.ServerSocket;
-import java.net.Socket;
-import javax.swing.JOptionPane;
+import java.net.DatagramSocket;
 
 /**
  *
  * @author Michelle Wangham
  */
 public class Server {
+
     public static void main(String[] args) {
-        
-        
-         try{
-            String portString = JOptionPane.showInputDialog("Digite a Porta do Servidor: ");
-            int port = Integer.parseInt(portString);
 
-            ServerSocket serverSocket = new ServerSocket(port);
+        try {
+            DatagramSocket serverSocket = new DatagramSocket(1234);
+            System.out.println("Servidor UDP escutando na porta " + serverSocket.getLocalPort());
 
-            System.out.println("Servidor TCP escutando na porta "+serverSocket.getLocalPort());
-            
-            while(true){
-                Socket socket_clie = serverSocket.accept();
+            while (true) {
                 //Inicia thread do cliente
-
-             new ThreadCliente(socket_clie).start();
+                new ThreadCliente(serverSocket).start();
             }
-            
-          }catch(Exception e){
-            System.err.println("And exception ocourred: "+e.getMessage());
+
+        } catch (Exception e) {
+            System.err.println("And exception ocourred: " + e.getMessage());
             e.printStackTrace();
             System.exit(-1);
         }
