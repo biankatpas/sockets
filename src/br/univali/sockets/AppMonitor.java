@@ -3,7 +3,9 @@ package br.univali.sockets;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.util.Scanner;
 
 /**
@@ -96,6 +98,11 @@ public class AppMonitor {
                         socket.send(datagram_send_palestrante);
                         break;
                     case 4:
+                        InetAddress multi_addrs = InetAddress.getByName("225.4.5.6");
+                        MulticastSocket msocket = new MulticastSocket();
+                        DatagramPacket mdatagram = new DatagramPacket(datagrama[1].getBytes(), 0,
+                                datagrama[1].getBytes().length, multi_addrs, 5000);
+                        msocket.send(mdatagram);                   
                         break;
                     default:
                         System.out.println("Selecione uma opção válida");
