@@ -68,7 +68,7 @@ public class AppPalestrante {
                 
                 DatagramPacket datagram_send = new DatagramPacket(buffer_resposta, 0,
                         buffer_resposta.length, InetAddress.getByName("127.0.0.1"), 12345);
-                socket.send(datagram_send); //envio dos dados
+                socket.send(datagram_send); //envio dos dados para o endereco e a porta do monitor
 
             }
         } catch (IOException e) {

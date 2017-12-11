@@ -24,8 +24,8 @@ public class AppMonitor {
 
         try {
             socket = new DatagramSocket(port);
-
             System.out.println("Monitor escutando na porta: " + port);
+           
             //somente para teste 
             //TODO: verificar como fazer o controle do cadastro de alunos
             DatagramPacket datagram_cadastro = new DatagramPacket(new byte[1024], 1024);
@@ -38,6 +38,8 @@ public class AppMonitor {
 
             //salva no repositorio de alunos
             repositorio.save(new Aluno(message_receive_data, message_receive_address, message_receive_port));
+            
+            //---------------------------------------------------------------------------------
             //somente para conferencia dos alunos no repositorio
             for (int i = 0; i < repositorio.findAll().size(); i++) {
                 System.out.println("id: " + repositorio.findAll().get(i).getId());
@@ -46,13 +48,14 @@ public class AppMonitor {
                 System.out.println("porta: " + repositorio.findAll().get(i).getPort());
                 System.out.println();
             }
-
+            //---------------------------------------------------------------------------------
+           
             while (true) {
                 DatagramPacket datagram_receive = new DatagramPacket(new byte[1024], 1024);
                 socket.receive(datagram_receive); //recepção em um datagrama de 1024 bytes
 
                 //imprime a pergunta recebida do aluno
-                System.out.println("Mensagem Recebida: " + new String(datagram_receive.getData()).trim() + " do Cliente "
+                System.out.println("Mensagem Recebida: " + new String(datagram_receive.getData()).trim() + " do Aluno "
                         + datagram_receive.getAddress() + ":" + datagram_receive.getPort());
 
                 // ---------------------------------------
@@ -75,14 +78,14 @@ public class AppMonitor {
                         String resposta_aluno = s.nextLine();
                         buffer_resposta = resposta_aluno.getBytes();
                         break;
-                    case 3: //envia pergunta para o palestrante
+                    case 3: //encaminha a pergunta para o palestrante
                         String message_send = new String(datagram_receive.getData()).trim();
                         DatagramPacket datagram_send_palestrante = new DatagramPacket(message_send.getBytes(), message_send.getBytes().length, InetAddress.getByName("127.0.0.1"), 54321);
                         socket.send(datagram_send_palestrante);
                         break;
                     default:
+                        System.out.println("Selecione uma opção válida");
                         break;
-
                 }
 
                 if (buffer_resposta != null) {
@@ -103,10 +106,8 @@ public class AppMonitor {
                     DatagramPacket datagram_send_aluno = new DatagramPacket(buffer_resposta, 0,
                             buffer_resposta.length, datagram_receive.getAddress(), datagram_receive.getPort());
                     socket.send(datagram_send_aluno);
-                
-                
+                              
                 }
-
             }
         } catch (IOException e) {
             System.err.println("An exception ocourred: " + e.getMessage());
