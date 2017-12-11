@@ -4,10 +4,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/udp/Client.java</file>
-            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/tcp/Server.java</file>
-            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/tcp/Client.java</file>
-            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/udp/Server.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/br/univali/sockets/AppAluno.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/br/univali/sockets/AppMonitor.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/br/univali/sockets/Aluno.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/br/univali/sockets/Pergunta.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/exemplos/udp2/Client.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/exemplos/tcpThread/Server.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/br/univali/sockets/AppPalestrante.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/exemplos/tcp/Server.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/br/univali/sockets/AlunosRepositorio.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/exemplos/udp/Client.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/exemplos/tcpThread/ThreadCliente.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/exemplos/tcpThread/Client.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/exemplos/tcp/Client.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/exemplos/udp2/Server.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/exemplos/udp/Server.java</file>
+            <file>file:/home/biankatpas/Dropbox/Workspace/sockets/src/exemplos/tcp/Pergunta.java</file>
         </group>
     </open-files>
 </project-private>

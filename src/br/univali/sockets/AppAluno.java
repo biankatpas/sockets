@@ -37,17 +37,17 @@ public class AppAluno {
                     System.out.println("O que você deseja fazer?\n (1) enviar uma pergunta para o palestrante\n (2) enviar mensagem para todos os participantes conectados");
                     int opcao = s.nextInt();
                     s.nextLine();
-                    
+                                      
                     switch (opcao) {
                         case 1:
                             System.out.println("Digite a pergunta para enviar ao monitor: ");
                             pergunta = s.nextLine();
-                            buffer = pergunta.getBytes();
+                            buffer = (opcao+";"+pergunta).getBytes();
                             break;
                         case 2:
                             System.out.println("Digite a mensagem para enviar ao monitor: ");
                             mensagem = s.nextLine();
-                            buffer = mensagem.getBytes();
+                            buffer = (opcao+";"+mensagem).getBytes();
                             break;
                         default:
                             System.out.println("Informe uma opção válida.");

@@ -11,14 +11,22 @@ import java.util.ArrayList;
 
 public class AlunosRepositorio 
 {
+    private static AlunosRepositorio instance;
+    
     ArrayList<Aluno> alunos; 
     private int next_id;
 
-    public AlunosRepositorio() {
+    private AlunosRepositorio() {
         alunos = new ArrayList<>();
         next_id = 0;
     }
 
+    public static AlunosRepositorio getInstance(){
+        if(instance!=null)
+            return instance;
+        return new AlunosRepositorio();
+    }
+    
     public void save(Aluno aluno) 
     {
         aluno.setId(next_id++);
