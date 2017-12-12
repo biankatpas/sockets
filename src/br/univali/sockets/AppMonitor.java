@@ -92,7 +92,7 @@ public class AppMonitor {
                 }
 
                 System.out.println("-- Mensagem Recebida --");
-                System.out.println("Aluno(a): " + hashAluno.get(datagram_receive.getPort()).getNome());
+                System.out.println("Aluno(a): " + hashAluno.get(datagram_receive.getPort()).getId() + "- " + hashAluno.get(datagram_receive.getPort()).getNome());
                 System.out.println("Tipo: " + acao);
                 System.out.println("Conteúdo: " + datagrama[1]);
 
@@ -110,47 +110,49 @@ public class AppMonitor {
                 buffer_resposta = null;
 
                 switch (opcao) {
-                    
+
                     case 1: //reformular pergunta
                         String mensagem = "Podes reformular sua pergunta";
                         buffer_resposta = mensagem.getBytes();
                         break;
-                   
+
                     case 2: //responder pergunta
                         String resposta_aluno = JOptionPane.showInputDialog("Digite a resposta para enviar ao aluno: ");
                         buffer_resposta = resposta_aluno.getBytes();
                         break;
-                  
+
                     case 3: //encaminha a pergunta para o palestrante
+                        //todo enviar o id do aluno
                         String message_send = new String(datagram_receive.getData()).trim();
                         DatagramPacket datagram_send_palestrante = new DatagramPacket(message_send.getBytes(), message_send.getBytes().length, InetAddress.getByName("127.0.0.1"), 54321);
                         socket.send(datagram_send_palestrante);
                         break;
-                   
+
                     case 4: //udp multicast
-                        System.out.println("TODO");
-                        /*
-                        InetAddress multi_addrs = InetAddress.getByName("225.4.5.6");
-                        MulticastSocket msocket = new MulticastSocket();
-                        DatagramPacket mdatagram = new DatagramPacket(datagrama[1].getBytes(), 0,
-                                datagrama[1].getBytes().length, multi_addrs, 5000);
-                        msocket.send(mdatagram);
-                         */
+                        JOptionPane.showMessageDialog(null, "TODO");
+                        //TODO
+//                        InetAddress multi_addrs = InetAddress.getByName("225.4.5.6");
+//                        MulticastSocket msocket = new MulticastSocket();
+//                        DatagramPacket mdatagram = new DatagramPacket(datagrama[1].getBytes(), 0,
+//                                datagrama[1].getBytes().length, multi_addrs, 5000);
+//                        msocket.send(mdatagram);
+                        String retorno = "Ok!";
+                        buffer_resposta = retorno.getBytes();
                         break;
-                   
+
                     default:
-                        System.out.println("Selecione uma opção válida");
+                        JOptionPane.showMessageDialog(null, "Selecione uma opção válida");
                         break;
                 }
 
                 if (buffer_resposta != null) {//da retorno para o aluno
-                   
+
                     DatagramPacket datagram_send_aluno = new DatagramPacket(buffer_resposta,
                             buffer_resposta.length, datagram_receive.getAddress(), datagram_receive.getPort());
                     socket.send(datagram_send_aluno);
-                    
+
                 } else {//recebe resposta do palestrante
-                    
+                    //todo tratar split
                     DatagramPacket datagram_receive_palestrante = new DatagramPacket(new byte[1024], 1024);
                     socket.receive(datagram_receive_palestrante); //recepção em um datagrama de 1024 bytes
 

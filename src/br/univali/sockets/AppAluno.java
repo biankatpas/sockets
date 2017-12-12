@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,12 +15,8 @@ import java.util.Scanner;
 public class AppAluno {
 
     public static void main(String[] args) {
-        String addrString = "127.0.0.1";
+        String addrString = "127.0.0.1", nome = "", mensagem = "", pergunta = "";
         int port = 12345;
-        Scanner s = new Scanner(System.in);
-        String nome = "";
-        String mensagem = "";
-        String pergunta = "";
         byte[] buffer = null;
 
         try {
@@ -31,36 +26,32 @@ public class AppAluno {
                 DatagramPacket datagram_cadastro = new DatagramPacket(cadastrar.getBytes(), 0, cadastrar.getBytes().length, addr, port);
                 socket.send(datagram_cadastro); //envio dos dados
                 //recebimento de dados
-                
-                
+
                 DatagramPacket datagram_receive1 = new DatagramPacket(new byte[1024], 1024, addr, port);
                 socket.receive(datagram_receive1); //recepção
                 if (new String(datagram_receive1.getData()).trim().equalsIgnoreCase("informe")) {
-                    System.out.println("Informe o seu nome para cadastro: ");
-                    nome = s.nextLine();
+                    nome = JOptionPane.showInputDialog("Informe o seu nome para cadastro:");
                     DatagramPacket envia_cadastro = new DatagramPacket(nome.getBytes(), 0, nome.getBytes().length, addr, port);
                     socket.send(envia_cadastro); //envio dos dados
-                    System.out.println("rrrrrrrrr");
                 }
 
                 while (true) {
-                    System.out.println("O que você deseja fazer?\n (1) enviar uma pergunta para o palestrante\n (2) enviar mensagem para todos os participantes conectados");
-                    int opcao = s.nextInt();
-                    s.nextLine();
-
+                    int opcao = Integer.parseInt(JOptionPane.showInputDialog(
+                            "O que você deseja fazer?\n "
+                            + "(1) enviar uma pergunta para o palestrante\n "
+                            + "(2) enviar mensagem para todos os participantes conectados"
+                    ));
                     switch (opcao) {
                         case 1:
-                            System.out.println("Digite a pergunta para enviar ao monitor: ");
-                            pergunta = s.nextLine();
+                            pergunta = JOptionPane.showInputDialog("Digite a pergunta para ser encaminhada ao palestrante pelo monitor:");
                             buffer = (opcao + ";" + pergunta).getBytes();
                             break;
                         case 2:
-                            System.out.println("Digite a mensagem para enviar ao monitor: ");
-                            mensagem = s.nextLine();
+                            mensagem = JOptionPane.showInputDialog("Digite a mensagem para ser encaminhada a todos os participantes pelo monitor:");
                             buffer = (opcao + ";" + mensagem).getBytes();
                             break;
                         default:
-                            System.out.println("Informe uma opção válida.");
+                            JOptionPane.showMessageDialog(null, "Informe uma opção válida.");
                             break;
                     }
 
@@ -73,8 +64,9 @@ public class AppAluno {
 
                     //exibe a msg recebida
                     String message_receive = new String(datagram_receive2.getData());
-                    System.out.println("O monitor respondeu: " + message_receive);
+                    JOptionPane.showMessageDialog(null, "O monitor respondeu: " + message_receive);
 
+                    //TODO
                     //recebe dados via multicast
                     //InetAddress multi_addrs = InetAddress.getByName("225.4.5.6");
                     //MulticastSocket multi_socket = new MulticastSocket(5000);
