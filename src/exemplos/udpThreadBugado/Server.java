@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package exemplos.udpThreads;
+package exemplos.udpThreadBugado;
 
-import exemplos.tcpThread.ThreadCliente;
+import exemplos.udpThread.ThreadCliente;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;

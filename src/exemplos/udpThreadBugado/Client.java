@@ -1,59 +1,63 @@
 /*
- * Client.java
- *
- * Created on 11 de Junho de 2013, 16:38
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package exemplos.tcpThread;
+package exemplos.udpThreadBugado;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Scanner;
-import javax.swing.JOptionPane;
 
 /**
  *
- * @author Michelle Wanghan
+ * @author Vitor
  */
 public class Client {
-
     public static void main(String[] args) {
+        String addrString = "";
+        int port;
+        Scanner s = new Scanner(System.in);
 
+        if (args.length < 2) {
+            addrString = "127.0.0.1";
+            port = 12345;
+        } else {
+            addrString = args[0];
+            port = Integer.parseInt(args[1]);
+        }
         try {
-            Scanner s = new Scanner(System.in);
-            InetAddress addr = InetAddress.getByName("127.0.0.1");
-
+            InetAddress addr = InetAddress.getByName(addrString);
             try (DatagramSocket socket = new DatagramSocket()) {
                 boolean exit = false;
-                while(true) {
+                do {
                     //solicita a mensagem para enviar ao servidor
                     System.out.println("Digite uma mensagem para o servidor: ");
                     String message = s.nextLine();
-                    
+
                     //verifica se eh para sair
-                    //if (message.equalsIgnoreCase("exit")) {
-                      //  exit = true;
-                    //}
+                    if (message.equalsIgnoreCase("exit")) {
+                        exit = true;
+                    }
 
                     //envio dos dados
                     DatagramPacket datagram_send = new DatagramPacket(message.getBytes(), 0,
-                            message.getBytes().length, addr, 1234);
+                            message.getBytes().length, addr, port);
                     socket.send(datagram_send);
 
                     //recebimento de dados
-                    DatagramPacket datagram_receive = new DatagramPacket(new byte[1024], 1024, addr, 1234);
+                    DatagramPacket datagram_receive = new DatagramPacket(new byte[1024], 1024, addr, port);
                     socket.receive(datagram_receive); //recepção
 
                     //exibe a msg recebida
                     String message_receive = new String(datagram_receive.getData());
                     System.out.println("O servidor respondeu: " + message_receive);
-                    
-                    //String message1 = JOptionPane.showInputDialog("Teste1 :");
-                }
+                } while (!exit);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.err.println("An exception ocourred: " + e.getMessage());
-            e.printStackTrace();
             System.exit(-1);
         }
     }

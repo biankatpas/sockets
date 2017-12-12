@@ -3,7 +3,7 @@
  *
  * Created on 11 de Junho de 2013
  */
-package exemplos.tcpThread;
+package exemplos.udpThread;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package exemplos.tcpThread;
+package exemplos.udpThread;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
