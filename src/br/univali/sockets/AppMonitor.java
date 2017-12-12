@@ -124,7 +124,7 @@ public class AppMonitor {
                     case 3: //encaminha a pergunta para o palestrante
                         //todo enviar o id do aluno
                         String message_send = new String(datagram_receive.getData()).trim();
-                        DatagramPacket datagram_send_palestrante = new DatagramPacket((datagram_receive.getPort()+";"+message_send).getBytes(), message_send.getBytes().length, InetAddress.getByName("127.0.0.1"), 54321);
+                        DatagramPacket datagram_send_palestrante = new DatagramPacket((datagram_receive.getPort() + ";" + message_send).getBytes(), message_send.getBytes().length, InetAddress.getByName("127.0.0.1"), 54321);
                         socket.send(datagram_send_palestrante);
                         break;
 
@@ -156,14 +156,16 @@ public class AppMonitor {
                     DatagramPacket datagram_receive_palestrante = new DatagramPacket(new byte[1024], 1024);
                     socket.receive(datagram_receive_palestrante); //recepção em um datagrama de 1024 bytes
 
+                    String datagramaPalestrante[] = new String(datagram_receive_palestrante.getData()).trim().split(";");
+
                     //imprime a resposta recebida do palestrante
                     System.out.println("Mensagem Recebida do Palestrante: " + new String(datagram_receive_palestrante.getData()).trim());
-                    String resposta_palestrante = new String(datagram_receive_palestrante.getData());
+                    String resposta_palestrante = datagramaPalestrante[1];
 
                     buffer_resposta = resposta_palestrante.getBytes();
 
                     DatagramPacket datagram_send_aluno = new DatagramPacket(buffer_resposta,
-                            buffer_resposta.length, datagram_receive.getAddress(), datagram_receive.getPort());
+                            buffer_resposta.length, datagram_receive.getAddress(), Integer.parseInt(datagramaPalestrante[0]));
                     socket.send(datagram_send_aluno);
 
                 }
