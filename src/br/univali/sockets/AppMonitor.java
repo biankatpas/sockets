@@ -124,7 +124,7 @@ public class AppMonitor {
                     case 3: //encaminha a pergunta para o palestrante
                         //todo enviar o id do aluno
                         String message_send = new String(datagram_receive.getData()).trim();
-                        DatagramPacket datagram_send_palestrante = new DatagramPacket(message_send.getBytes(), message_send.getBytes().length, InetAddress.getByName("127.0.0.1"), 54321);
+                        DatagramPacket datagram_send_palestrante = new DatagramPacket((datagram_receive.getPort()+";"+message_send).getBytes(), message_send.getBytes().length, InetAddress.getByName("127.0.0.1"), 54321);
                         socket.send(datagram_send_palestrante);
                         break;
 
