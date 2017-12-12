@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 public class AppMonitor {
 
     public static void main(String[] args) {
-        
+
         HashMap<Integer, Aluno> hashAluno = new HashMap<>();
         int port = 12345;
         DatagramSocket socket;
@@ -28,7 +28,7 @@ public class AppMonitor {
         byte[] buffer_resposta;
 
         try {
-          
+
             //starta o servidor
             socket = new DatagramSocket(port);
             System.out.println("Monitor escutando na porta: " + port);
@@ -44,25 +44,25 @@ public class AppMonitor {
 
             //se for para cadastrar
             if (message_receive_data.equalsIgnoreCase("cadastrar")) {
-               
+
                 if (hashAluno.isEmpty()) {
-                    
+
                     //pede o nome do aluno
                     String mensagem = "informe";
                     DatagramPacket solicita_cadastro = new DatagramPacket(mensagem.getBytes(),
                             mensagem.getBytes().length, message_receive_address, message_receive_port);
                     socket.send(solicita_cadastro);
-                    
+
                     //escuta o nome do aluno
                     DatagramPacket recebe_cadastro = new DatagramPacket(new byte[1024], 1024);
                     socket.receive(recebe_cadastro); //recepção em um datagrama de 1024 bytes
-                    
+
                     //save
                     hashAluno.put(recebe_cadastro.getPort(), new Aluno(new String(recebe_cadastro.getData()).trim(), recebe_cadastro.getAddress(), recebe_cadastro.getPort()));
-                
+
                 } else {
                     if (!hashAluno.containsKey(datagram_cadastro.getPort())) {
-                       
+
                         String mensagem = "Informe o seu nome: ";
                         DatagramPacket solicita_cadastro = new DatagramPacket(mensagem.getBytes(), 0,
                                 mensagem.getBytes().length, message_receive_address, message_receive_port);
@@ -91,7 +91,11 @@ public class AppMonitor {
                         acao = "enviar mensagem para todos os participantes conectados";
                         break;
                 }
-                System.out.println("Mensagem Recebida: \nSolicitação = " + acao + "\nMensagem = " + datagrama[1] + "\nAluno " + hashAluno.get(datagram_receive.getPort()).getNome());
+
+                System.out.println("-- Mensagem Recebida --");
+                System.out.println("Aluno(a): " + hashAluno.get(datagram_receive.getPort()).getNome());
+                System.out.println("Tipo: " + acao);
+                System.out.println("Conteúdo: " + datagrama[1]);
 
                 // ---------------------------------------
                 // OPCOES DO MONITOR
