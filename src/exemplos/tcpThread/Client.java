@@ -41,12 +41,12 @@ public class Client {
                     socket.send(datagram_send);
 
                     //recebimento de dados
-                    //DatagramPacket datagram_receive = new DatagramPacket(new byte[1024], 1024, addr, 1234);
-                    //socket.receive(datagram_receive); //recepção
+                    DatagramPacket datagram_receive = new DatagramPacket(new byte[1024], 1024, addr, 1234);
+                    socket.receive(datagram_receive); //recepção
 
                     //exibe a msg recebida
-                    //String message_receive = new String(datagram_receive.getData());
-                    //System.out.println("O servidor respondeu: " + message_receive);
+                    String message_receive = new String(datagram_receive.getData());
+                    System.out.println("O servidor respondeu: " + message_receive);
                     
                     //String message1 = JOptionPane.showInputDialog("Teste1 :");
                 }
